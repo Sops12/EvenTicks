@@ -46,10 +46,20 @@ export default function LoginPage() {
       if (res?.error) {
         setError('Invalid email or password');
       } else if (res?.ok) {
-        // Paksa reload session dan redirect manual
-        // Tunggu session update, lalu redirect sesuai role
-        // Sementara redirect ke callbackUrl, nanti useEffect akan handle ke /admin jika role admin
-        window.location.href = callbackUrl || '/';
+        // Tunggu session update, lalu fetch session user dan redirect sesuai role
+        setTimeout(async () => {
+          try {
+            const response = await fetch('/api/auth/me');
+            const user = await response.json();
+            if (user?.role === 'admin') {
+              window.location.href = '/admin';
+            } else {
+              window.location.href = callbackUrl || '/';
+            }
+          } catch (e) {
+            window.location.href = callbackUrl || '/';
+          }
+        }, 500);
       }
     } catch (error) {
       setError('An error occurred while signing in');
