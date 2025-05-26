@@ -17,9 +17,17 @@ export async function GET(
       );
     }
 
+    const eventId = parseInt(params.id);
+    if (!params.id || isNaN(eventId)) {
+      return NextResponse.json(
+        { error: 'Invalid event id' },
+        { status: 400 }
+      );
+    }
+
     const event = await prisma.event.findUnique({
       where: {
-        id: parseInt(params.id)
+        id: eventId
       }
     });
 
@@ -71,9 +79,17 @@ export async function PUT(
       );
     }
 
+    const eventId = parseInt(params.id);
+    if (!params.id || isNaN(eventId)) {
+      return NextResponse.json(
+        { error: 'Invalid event id' },
+        { status: 400 }
+      );
+    }
+
     const event = await prisma.event.update({
       where: {
-        id: parseInt(params.id)
+        id: eventId
       },
       data: {
         title,
@@ -124,9 +140,17 @@ export async function DELETE(
       );
     }
 
+    const eventId = parseInt(params.id);
+    if (!params.id || isNaN(eventId)) {
+      return NextResponse.json(
+        { error: 'Invalid event id' },
+        { status: 400 }
+      );
+    }
+
     await prisma.event.delete({
       where: {
-        id: parseInt(params.id)
+        id: eventId
       }
     });
 
