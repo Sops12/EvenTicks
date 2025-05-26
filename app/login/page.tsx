@@ -45,8 +45,12 @@ export default function LoginPage() {
 
       if (res?.error) {
         setError('Invalid email or password');
+      } else if (res?.ok) {
+        // Paksa reload session dan redirect manual
+        // Tunggu session update, lalu redirect sesuai role
+        // Sementara redirect ke callbackUrl, nanti useEffect akan handle ke /admin jika role admin
+        window.location.href = callbackUrl || '/';
       }
-      // The useEffect above will handle the redirect once the session is updated
     } catch (error) {
       setError('An error occurred while signing in');
     } finally {
