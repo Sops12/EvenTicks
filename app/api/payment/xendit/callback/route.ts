@@ -3,7 +3,6 @@ import { XenditService } from '@/lib/xendit';
 
 const xenditService = new XenditService({
   secretKey: process.env.XENDIT_SECRET_KEY!,
-  environment: (process.env.XENDIT_ENVIRONMENT as 'sandbox' | 'production') || 'sandbox',
 });
 
 export async function POST(request: Request) {
